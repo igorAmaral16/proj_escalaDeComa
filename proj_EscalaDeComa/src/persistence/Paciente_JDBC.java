@@ -61,11 +61,6 @@ public class Paciente_JDBC implements Paciente_JDBC_Interface{
            
            pacientes.add(paciente);
            
-           
-           for(Paciente pacientee : pacientes){
-               System.out.println(pacientee);
-           }
-           
         }
         
         return pacientes;
@@ -83,8 +78,48 @@ public class Paciente_JDBC implements Paciente_JDBC_Interface{
     }
 
     @Override
-    public String atualizarPaciente(Paciente paciente) throws Exception{
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void atualizarPaciente(Paciente paciente) throws Exception{
+        String sql = "UPDATE paciente SET nome = ?, sobrenome = ?, idade = ?, cpf = ? WHERE id = ?";
+
+        PreparedStatement statement = conexao.prepareStatement(sql);
+        statement.setString(1, paciente.getNome());
+        statement.setString(2, paciente.getSobrenome());
+        statement.setString(3, paciente.getIdade());
+        statement.setString(4, paciente.getCpf());
+        statement.setString(5, paciente.getCpf());
+
+        statement.executeUpdate();
+
+        statement.close();
+        conexao.close();
+    }
+
+    @Override
+    public void buscarPaciente(String cpf) throws Exception{
+         String sql = "SELECT * FROM paciente WHERE cpf = ?";
+        
+        PreparedStatement declaracao = conexao.prepareStatement(sql);
+        declaracao.setString(1, cpf);
+        ResultSet resposta = declaracao.executeQuery();
+        
+        while (resposta.next()) {
+            Paciente paciente = new Paciente();
+            
+            int id = resposta.getInt("id_paciente");
+            int idade = resposta.getInt("idade");
+            
+            paciente.setID(id);
+            paciente.setNome(resposta.getString("nome"));
+            paciente.setSobrenome(resposta.getString("sobrenome"));
+            paciente.setIdade(String.valueOf(idade));
+            paciente.setCpf(resposta.getString("cpf"));
+            paciente.setEscalaDeComa(resposta.getString("escalaDeComa"));
+            
+            System.out.println("PACIENTE:" + paciente.getID() + paciente.getNome() + paciente.getSobrenome() + paciente.getIdade() + paciente.getCpf() + paciente.getEscalaDeComa());
+        }
+
+        resposta.close();
+        declaracao.close();
     }
     
 }

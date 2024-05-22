@@ -95,7 +95,7 @@ public class Registrar extends javax.swing.JInternalFrame {
 
         jLabel14.setText("Resposta Ocular");
 
-        cbxAberturaOcular.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Espontânea - 4", "À voz - 3 ", "À dor - 2", "Nenhuma - 1" }));
+        cbxAberturaOcular.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Espontânea - 4", "À voz - 3", "À dor - 2", "Nenhuma - 1" }));
         cbxAberturaOcular.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbxAberturaOcularItemStateChanged(evt);
@@ -104,9 +104,9 @@ public class Registrar extends javax.swing.JInternalFrame {
 
         cbxVerbal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Orientada - 5", "Confusa - 4", "Palavras inapropriadas - 3", "Palavras incompreensiveis - 2", "Nenhuma - 1" }));
 
-        cbxRespostaMotora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Obedece a comandos - 6", "Localiza a dor - 5", "Movimentos de retirada - 4", "Flexão normal - 3", "Extensão anormal - 2 ", "Nenhuma - 1" }));
+        cbxRespostaMotora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Obedece a comandos - 6", "Localiza a dor - 5", "Movimentos de retirada - 4", "Flexão normal - 3", "Extensão anormal - 2", "Nenhuma - 1" }));
 
-        cbxRespostaOcular.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nenhuma - 2", "Apenas uma - 1 ", "Reação bilateral - 0" }));
+        cbxRespostaOcular.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nenhuma - 2", "Apenas uma - 1", "Reação bilateral - 0" }));
 
         jButton1.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         jButton1.setText("Registrar");

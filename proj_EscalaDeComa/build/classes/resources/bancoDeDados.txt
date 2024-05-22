@@ -1,0 +1,20 @@
+CREATE TABLE paciente(
+	id_paciente INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nome VARCHAR(255),
+	sobrenome VARCHAR(255),
+	idade INT,
+	cpf VARCHAR(255),
+	escalaDeComa VARCHAR(255)
+);
+
+CREATE PROCEDURE proc_inserirPaciente(
+	IN p_nome VARCHAR(255),
+	IN p_sobrenome VARCHAR(255),
+	IN p_idade VARCHAR(5),
+	IN p_cpf VARCHAR(255),
+	IN p_escalaDeComa VARCHAR(255)
+)
+BEGIN
+	INSERT INTO paciente (nome, sobrenome, idade, cpf, escalaDeComa)
+	VALUES (p_nome, p_sobrenome, p_idade, p_cpf, p_escalaDeComa);
+END
