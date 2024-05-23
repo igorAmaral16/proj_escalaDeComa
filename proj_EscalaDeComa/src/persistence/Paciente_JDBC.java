@@ -30,8 +30,6 @@ public class Paciente_JDBC implements Paciente_JDBC_Interface{
         ps.setString(5, paciente.getEscalaDeComa());
         ps.execute();
         
-        System.out.println("Procedure executada com sucesso!");
-        
     }
 
     @Override
@@ -57,11 +55,11 @@ public class Paciente_JDBC implements Paciente_JDBC_Interface{
            paciente.setCpf(resposta.getString("cpf"));
            paciente.setEscalaDeComa(resposta.getString("escalaDeComa"));
            
-           System.out.println("PACIENTE:" + paciente.getID() + paciente.getNome() + paciente.getSobrenome() + paciente.getIdade() + paciente.getCpf() + paciente.getEscalaDeComa());
-           
            pacientes.add(paciente);
            
         }
+        declaracao.close();
+        resposta.close();
         
         return pacientes;
     }
@@ -79,24 +77,29 @@ public class Paciente_JDBC implements Paciente_JDBC_Interface{
 
     @Override
     public void atualizarPaciente(Paciente paciente) throws Exception{
-        String sql = "UPDATE paciente SET nome = ?, sobrenome = ?, idade = ?, cpf = ? WHERE id = ?";
+         System.out.println("atualizando o paciente: " + paciente.getNome() + paciente.getSobrenome() + paciente.getIdade() + paciente.getCpf() + paciente.getEscalaDeComa());
+               
+        String sql = "UPDATE paciente SET nome = ?, sobrenome = ?, idade = ?, cpf = ?, escalaDeComa = ? WHERE id_paciente = ?";
 
-        PreparedStatement statement = conexao.prepareStatement(sql);
-        statement.setString(1, paciente.getNome());
-        statement.setString(2, paciente.getSobrenome());
-        statement.setString(3, paciente.getIdade());
-        statement.setString(4, paciente.getCpf());
-        statement.setString(5, paciente.getCpf());
+        PreparedStatement ps = conexao.prepareStatement(sql);
+        
+        ps.setString(1, paciente.getNome());
+        ps.setString(2, paciente.getSobrenome());
+        ps.setString(3, paciente.getIdade());
+        ps.setString(4, paciente.getCpf());
+        ps.setString(5, paciente.getEscalaDeComa());
+        ps.setInt(6, paciente.getID());
 
-        statement.executeUpdate();
+        ps.executeUpdate();
 
-        statement.close();
+        ps.close();
         conexao.close();
     }
 
     @Override
-    public void buscarPaciente(String cpf) throws Exception{
-         String sql = "SELECT * FROM paciente WHERE cpf = ?";
+    public ArrayList<Paciente> buscarPaciente(String cpf) throws Exception{
+        ArrayList<Paciente> pacientes = new ArrayList<>();
+        String sql = "SELECT * FROM paciente WHERE cpf = ?";
         
         PreparedStatement declaracao = conexao.prepareStatement(sql);
         declaracao.setString(1, cpf);
@@ -115,11 +118,45 @@ public class Paciente_JDBC implements Paciente_JDBC_Interface{
             paciente.setCpf(resposta.getString("cpf"));
             paciente.setEscalaDeComa(resposta.getString("escalaDeComa"));
             
-            System.out.println("PACIENTE:" + paciente.getID() + paciente.getNome() + paciente.getSobrenome() + paciente.getIdade() + paciente.getCpf() + paciente.getEscalaDeComa());
+            pacientes.add(paciente);
         }
-
+        
         resposta.close();
         declaracao.close();
+        
+        return pacientes;
+    }
+    
+    @Override
+    public ArrayList<Paciente> buscarPacienteID(int idBusca) throws Exception{
+        ArrayList<Paciente> pacientes = new ArrayList<>();
+        String sql = "SELECT * FROM paciente WHERE id_paciente = ?";
+        
+        PreparedStatement declaracao = conexao.prepareStatement(sql);
+        declaracao.setInt(1, idBusca);
+        ResultSet resposta = declaracao.executeQuery();
+        
+        while (resposta.next()) {
+            Paciente paciente = new Paciente();
+            
+            int id = resposta.getInt("id_paciente");
+            int idade = resposta.getInt("idade");
+            
+            paciente.setID(id);
+            paciente.setNome(resposta.getString("nome"));
+            paciente.setSobrenome(resposta.getString("sobrenome"));
+            paciente.setIdade(String.valueOf(idade));
+            paciente.setCpf(resposta.getString("cpf"));
+            paciente.setEscalaDeComa(resposta.getString("escalaDeComa"));
+            
+            System.out.println("PACIENTE COM ID: " + paciente.getID());
+            pacientes.add(paciente);
+        }
+        
+        resposta.close();
+        declaracao.close();
+        
+        return pacientes;
     }
     
 }

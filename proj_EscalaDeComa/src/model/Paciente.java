@@ -13,7 +13,15 @@ public class Paciente {
         
     }
     
-    public Paciente(String nome, String sobrenome, String idade, String cpf, String escalaDeComa){
+    public Paciente(Integer ID, String nome, String sobrenome, String idade, String cpf, String escalaDeComa){
+        this.ID = ID;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.idade = idade;
+        this.cpf = cpf;
+        this.escalaDeComa = escalaDeComa;
+    }
+    public Paciente( String nome, String sobrenome, String idade, String cpf, String escalaDeComa){
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.idade = idade;

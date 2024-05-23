@@ -144,6 +144,7 @@
             <Property name="text" type="java.lang.String" value="Listar"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton1MouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
           </Events>
         </Component>
@@ -152,6 +153,7 @@
             <Property name="text" type="java.lang.String" value="Apagar tudo"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton3MouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
           </Events>
         </Component>
@@ -160,9 +162,12 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="2"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Insira o cpf"/>
+            <Property name="text" type="java.lang.String" value="Insira o CPF"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtBuscaMouseClicked"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtBuscaMouseEntered"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtBuscaMouseExited"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtBuscaActionPerformed"/>
           </Events>
         </Component>
@@ -185,12 +190,12 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="6" rowCount="4">
-                    <Column editable="true" title="id" type="java.lang.Object"/>
-                    <Column editable="true" title="nome" type="java.lang.Object"/>
-                    <Column editable="true" title="sobrenome" type="java.lang.Object"/>
-                    <Column editable="true" title="idade" type="java.lang.Object"/>
-                    <Column editable="true" title="cpf" type="java.lang.Object"/>
-                    <Column editable="true" title="escala de coma" type="java.lang.Object"/>
+                    <Column editable="false" title="id" type="java.lang.Object"/>
+                    <Column editable="false" title="nome" type="java.lang.Object"/>
+                    <Column editable="false" title="sobrenome" type="java.lang.Object"/>
+                    <Column editable="false" title="idade" type="java.lang.Object"/>
+                    <Column editable="false" title="cpf" type="java.lang.Object"/>
+                    <Column editable="false" title="escala de coma" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

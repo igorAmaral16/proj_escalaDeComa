@@ -4,6 +4,7 @@
  */
 package view;
 
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -73,6 +74,11 @@ public class Visualizar extends javax.swing.JInternalFrame {
         jLabel1.setText("Pacientes Registrados");
 
         jButton1.setText("Listar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -80,6 +86,11 @@ public class Visualizar extends javax.swing.JInternalFrame {
         });
 
         jButton3.setText("Apagar tudo");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -87,7 +98,18 @@ public class Visualizar extends javax.swing.JInternalFrame {
         });
 
         txtBusca.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
-        txtBusca.setText("Insira o cpf");
+        txtBusca.setText("Insira o CPF");
+        txtBusca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtBuscaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtBuscaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txtBuscaMouseExited(evt);
+            }
+        });
         txtBusca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtBuscaActionPerformed(evt);
@@ -111,7 +133,15 @@ public class Visualizar extends javax.swing.JInternalFrame {
             new String [] {
                 "id", "nome", "sobrenome", "idade", "cpf", "escala de coma"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tabela);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -199,10 +229,8 @@ public class Visualizar extends javax.swing.JInternalFrame {
         ArrayList<Paciente> pacientes = null ;
         
         try {
-            System.out.println("ENTROUUU");
             Paciente_JDBC pacienteDAO = new Paciente_JDBC(conexao.abrirConexao());
             pacientes = pacienteDAO.listarPacientes();
-            System.out.println("LISTOUUU");
             conexao.fecharConexao();
             
             DefaultTableModel modelo = (DefaultTableModel)tabela.getModel();
@@ -212,7 +240,8 @@ public class Visualizar extends javax.swing.JInternalFrame {
                 modelo.addRow(
                     new Object[] {
                         p.getID(),
-                        p.getNome(), p.getSobrenome(),
+                        p.getNome(), 
+                        p.getSobrenome(),
                         p.getIdade(),
                         p.getCpf(),
                         p.getEscalaDeComa()
@@ -240,12 +269,12 @@ public class Visualizar extends javax.swing.JInternalFrame {
 
         if (opcao == JOptionPane.YES_OPTION) {
             try {
-            Paciente_JDBC pacienteDAO = new Paciente_JDBC(conexao.abrirConexao());
-            pacienteDAO.deletarPaciente();
-            JOptionPane.showMessageDialog(null,"DADOS EXCLUÍDOS!");
-        } catch (Exception ex) {
-            Logger.getLogger(Visualizar.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                Paciente_JDBC pacienteDAO = new Paciente_JDBC(conexao.abrirConexao());
+                pacienteDAO.deletarPaciente();
+                JOptionPane.showMessageDialog(null,"DADOS EXCLUÍDOS!");
+            } catch (Exception ex) {
+                Logger.getLogger(Visualizar.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             JOptionPane.showMessageDialog(null,"Ação cancelada!");
         }
@@ -258,15 +287,75 @@ public class Visualizar extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         String cpfBusca = txtBusca.getText();
         Conexao conexao = new Conexao();
+        ArrayList<Paciente> pacientes = null ;
         
         try {
             Paciente_JDBC pacienteDAO = new Paciente_JDBC(conexao.abrirConexao());
-            pacienteDAO.buscarPaciente(cpfBusca);
+            pacientes = pacienteDAO.buscarPaciente(cpfBusca);
+            conexao.fecharConexao();
+            
+            if (pacientes.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Nenhum resultado foi encontrado.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                
+                Font fonte = new Font("Arial", Font.ITALIC, 12);
+                txtBusca.setFont(fonte);
+                txtBusca.setText("Insira o CPF");
+        
+            } else {
+                DefaultTableModel modelo = (DefaultTableModel)tabela.getModel();
+                modelo.setNumRows(0);
+            
+            for(Paciente p:pacientes){
+                modelo.addRow(
+                    new Object[] {
+                        p.getID(),
+                        p.getNome(), 
+                        p.getSobrenome(),
+                        p.getIdade(),
+                        p.getCpf(),
+                        p.getEscalaDeComa()
+                    }
+                );
+              }
+            Font fonte = new Font("Arial", Font.ITALIC, 12);
+            txtBusca.setFont(fonte);
+            txtBusca.setText("Insira o CPF");
+            }
+            
             
         } catch (Exception ex) {
             Logger.getLogger(Visualizar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void txtBuscaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscaMouseClicked
+        // TODO add your handling code here:
+        txtBusca.setText("");
+    }//GEN-LAST:event_txtBuscaMouseClicked
+
+    private void txtBuscaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscaMouseExited
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_txtBuscaMouseExited
+
+    private void txtBuscaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscaMouseEntered
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtBuscaMouseEntered
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        Font fonte = new Font("Arial", Font.ITALIC, 12);
+        txtBusca.setFont(fonte);
+        txtBusca.setText("Insira o CPF");
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        // TODO add your handling code here:
+        Font fonte = new Font("Arial", Font.ITALIC, 12);
+        txtBusca.setFont(fonte);
+        txtBusca.setText("Insira o CPF");
+    }//GEN-LAST:event_jButton3MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
